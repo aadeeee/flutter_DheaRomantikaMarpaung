@@ -5,11 +5,11 @@ class Persegi {
   double sisi;
   Persegi(this.sisi);
   //rumus luas persegi
-  double luasPersegi() {
+   luasPersegi() {
     return sisi * sisi;
   }
   //rumus keliling persegi
-  double kelilingPersegi() {
+  kelilingPersegi() {
     return 4 * sisi;
   }
 }
@@ -20,11 +20,11 @@ class PersegiPanjang {
 
   PersegiPanjang(this.panjang, this.lebar);
   //rumus luas persegi panjang
-  double luasPersegiPanjang() {
+   luasPersegiPanjang() {
     return panjang * lebar;
   }
   //rumus keliling persegi panjang
-  double kelilingPersegiPanjang() {
+   kelilingPersegiPanjang() {
     return 2 * (panjang + lebar);
   }
 }
@@ -35,18 +35,18 @@ class Lingkaran{
 
   Lingkaran(this.jariJari);
   //rumus luas lingkaran
-  double luasLingkaran() {
+   luasLingkaran() {
     return pi * jariJari * jariJari;
   }
   //rumus keliling lingkaran
-  double kelilingLingkaran() {
+ kelilingLingkaran() {
     return 2 * pi * jariJari;
   }
 }
 
 void main() {
   print("***Tekan Enter jika anda tidak ingin menjalankan program***");
-  double inputDouble(String message) {
+   inputDouble(String message) {
     stdout.write(message);
     return double.tryParse(stdin.readLineSync() ?? '') ?? 0.0;
   }

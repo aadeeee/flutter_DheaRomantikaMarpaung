@@ -4,14 +4,14 @@ import 'dart:math';
 void piramid(int nilai) {
   for (int i = 0; i < nilai; i++) {
     //jumlah spasi yang akan di cetak setiap iterasinya
-    for (int j = 0; j < nilai - i; j++) {
+    for (int j = 0; j < nilai - i -1; j++) {
       //menampilkan spasi
-      stdout.write(" ");
+      stdout.write("  ");
     }
     //pola bintang 1 3 5
     for (int k = 0; k < (2 * i + 1); k++) {
       //menampilkan * sesuai pola
-      stdout.write("*");
+      stdout.write("* ");
     }
     //masuk ke baris baru setiap satu iterasi selesai
     print("");

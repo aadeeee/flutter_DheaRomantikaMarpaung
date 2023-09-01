@@ -1,8 +1,8 @@
 import 'matematika.dart';
 
 class KelipatanPersekutuanTerkecil implements Matematika {
-  int x;
-  int y;
+  final int x;
+  final int y;
 
   KelipatanPersekutuanTerkecil(this.x, this.y);
 

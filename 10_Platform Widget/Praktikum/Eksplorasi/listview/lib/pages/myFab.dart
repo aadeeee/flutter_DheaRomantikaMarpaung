@@ -34,7 +34,8 @@ class _MyFabState extends State<MyFab> {
           },
         );
       },
-      child: Icon(Icons.add),
+      shape: const CircleBorder(),
+      child: const Icon(Icons.add),
     );
   }
 }

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gallery/pages/contact/contactPage.dart';
-import 'package:gallery/pages/image/imagePage.dart';
-import 'package:gallery/pages/setting/setting.dart';
+
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
@@ -27,11 +25,7 @@ class MyDrawer extends StatelessWidget {
               'Contact',
             ),
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const MyContactPage(),
-                  ));
+              Navigator.pushNamed(context, '/contact');
             },
           ),
           ListTile(
@@ -40,11 +34,16 @@ class MyDrawer extends StatelessWidget {
               'Gallery',
             ),
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const MyImagePage(),
-                  ));
+                  Navigator.pushNamed(context, '/image');
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.book),
+            title: const Text(
+              'MyLearn',
+            ),
+            onTap: () {
+                  Navigator.pushNamed(context, '/myLearn');
             },
           ),
           ListTile(
@@ -53,11 +52,7 @@ class MyDrawer extends StatelessWidget {
               'Setting',
             ),
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const MySetting(),
-                  ));
+              Navigator.pushNamed(context, '/setting');
             },
           ),
         ],

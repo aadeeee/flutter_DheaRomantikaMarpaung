@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gallery/pages/image/detailImage.dart';
 
 class MyAlertPage extends StatefulWidget {
   final String img;
@@ -44,10 +43,8 @@ class _MyAlertPageState extends State<MyAlertPage> {
               child: OutlinedButton(
                   onPressed: () {
                     Navigator.pop(context);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => MyDetailImage(image: widget.img)));
+                    Navigator.pushNamed(context, '/detailImage',
+                        arguments: widget.img);
                   },
                   child: const Text("Ya")),
             )

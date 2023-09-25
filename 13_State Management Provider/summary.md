@@ -1,0 +1,3 @@
+1. State merupakan sebuah cara yang dibutuhkan untuk mengelola sebuah data, sehingga data tersebut dapat berubah atau diperbaharui ketika widget dijalankan dan state sendiri hanya bisa dijalankan saat menggunakan StatefulWidget.
+2. Global State merupakan sebuah state atau data yang memungkinkan agar dapat diakses oleh seluruh widget, sehingga seluruh widget dapat memiliki data yang sama.
+3. Provider merupakan sebuah library yang dibutuhkan untuk mengelola state dalam membanggun sebuah aplikasi dan menyediakan manajemen state yang baik dalam aplikasi flutter, sehingga dalam pengembangan akan lebih mudah dan efisien dalam mengelola data dan state, atau dalam pengertian lebih sederhana bagian yang membutuhkan logic akan dipisahkan dari ui yang sedang dibangun.

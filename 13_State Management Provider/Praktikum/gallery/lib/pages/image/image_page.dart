@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gallery/pages/image/alertDialog.dart';
-import 'package:gallery/pages/image/buttomSheet.dart';
-import 'package:gallery/provider/MyProvider.dart';
+import 'package:gallery/pages/image/alert_dialog.dart';
+import 'package:gallery/pages/image/buttom_sheet.dart';
+import 'package:gallery/provider/my_provider.dart';
 import 'package:provider/provider.dart';
 
 class MyImagePage extends StatefulWidget {

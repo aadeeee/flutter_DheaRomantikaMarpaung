@@ -1,14 +1,9 @@
-// ignore: file_names
-// ignore_for_file: avoid_print, file_names, duplicate_ignore
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:gallery/provider/MyProvider.dart';
+import 'package:gallery/provider/my_provider.dart';
 import 'package:intl/intl.dart';
-import 'package:open_file/open_file.dart';
 import 'package:provider/provider.dart';
 
 class MyContactPage extends StatefulWidget {
@@ -19,15 +14,7 @@ class MyContactPage extends StatefulWidget {
 }
 
 class _MyContactPageState extends State<MyContactPage> {
-  final GlobalKey<FormState> _key = GlobalKey<FormState>();
-  DateTime dueDate = DateTime.now();
-  final currentDate = DateTime.now();
-
-  Color currentColor = Colors.orange;
-
-  late String selectedFileName;
-  bool isFileSelected = false;
-  String isfilePath = "";
+  
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +41,7 @@ class _MyContactPageState extends State<MyContactPage> {
   }
 
   Widget buildDatePicker(BuildContext context) {
+    var prov = Provider.of<MyProvider>(context, listen: false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -65,26 +53,23 @@ class _MyContactPageState extends State<MyContactPage> {
               onPressed: () async {
                 final selectDate = await showDatePicker(
                   context: context,
-                  initialDate: currentDate,
+                  initialDate: prov.currentDate,
                   firstDate: DateTime(1990),
-                  lastDate: DateTime(currentDate.year + 5),
+                  lastDate: DateTime(prov.dueDate.year + 5),
                 );
-                setState(() {
-                  if (selectDate != null) {
-                    dueDate = selectDate;
-                  }
-                });
+                prov.updateSelectedDate(selectDate ?? prov.selectedDate);
               },
               child: const Text("Select"),
             )
           ],
         ),
-        Text(DateFormat("dd-MM-yyyy").format(dueDate)),
+        Text(DateFormat("dd-MM-yyyy").format(prov.selectedDate)),
       ],
     );
   }
 
   Widget buildColorPicker(BuildContext context) {
+    var prov = Provider.of<MyProvider>(context, listen: false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -95,7 +80,7 @@ class _MyContactPageState extends State<MyContactPage> {
         Container(
           height: 100,
           width: double.infinity,
-          color: currentColor,
+          color: prov.currentColor,
         ),
         const SizedBox(
           height: 10,
@@ -103,7 +88,7 @@ class _MyContactPageState extends State<MyContactPage> {
         Center(
           child: ElevatedButton(
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(currentColor),
+              backgroundColor: MaterialStateProperty.all(prov.currentColor),
             ),
             onPressed: () {
               showDialog(
@@ -112,17 +97,15 @@ class _MyContactPageState extends State<MyContactPage> {
                   return AlertDialog(
                     title: const Text("Pick Your Color"),
                     content: BlockPicker(
-                      pickerColor: currentColor,
+                      pickerColor: prov.currentColor,
                       onColorChanged: (color) {
-                        setState(() {
-                          currentColor = color;
-                        });
+                        prov.updateColor(color);
                       },
                     ),
                     actions: [
                       TextButton(
                         onPressed: () {
-                          Navigator.pop(context);
+                          prov.onClosePage(context);
                         },
                         child: const Text("Save"),
                       ),
@@ -139,6 +122,7 @@ class _MyContactPageState extends State<MyContactPage> {
   }
 
   Widget buildFilePicker(BuildContext context) {
+    var prov = Provider.of<MyProvider>(context, listen: false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -149,48 +133,30 @@ class _MyContactPageState extends State<MyContactPage> {
         Center(
           child: ElevatedButton(
             onPressed: () {
-              pickFile();
+              prov.pickFile();
             },
             child: const Text("Pick and Open File"),
           ),
         ),
-        if (isfilePath.isNotEmpty)
-          SizedBox(
+        Visibility(
+          visible: prov.isfilePath.isNotEmpty,
+          child: SizedBox(
             width: 40,
             height: 40,
             child: Image.file(
-              File(isfilePath),
+              File(prov.isfilePath),
               fit: BoxFit.cover,
             ),
-          )
+          ),
+        )
       ],
     );
-  }
-
-  void pickFile() async {
-    final result = await FilePicker.platform.pickFiles();
-    if (result == null) return;
-
-    final file = result.files.first;
-    final selectedFileName = file.name;
-    final filepath = file.path;
-    setState(() {
-      this.selectedFileName = selectedFileName;
-      isfilePath = filepath ?? "";
-      isFileSelected = true;
-    });
-
-    openFile(file);
-  }
-
-  void openFile(PlatformFile file) {
-    OpenFile.open(file.path);
   }
 
   Widget buildForm(BuildContext context) {
     var prov = Provider.of<MyProvider>(context, listen: false);
     return Form(
-      key: _key,
+      key: prov.key,
       child: Column(
         children: [
           const Padding(
@@ -233,16 +199,7 @@ class _MyContactPageState extends State<MyContactPage> {
                     hintStyle: TextStyle(fontSize: 12),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                   ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Name is required';
-                    } else if (value.split(' ').length < 2) {
-                      return 'Name must have at least 2 words';
-                    } else if (!prov.capital(value)) {
-                      return 'Words start with capital letters, no special characters.';
-                    }
-                    return null;
-                  },
+                  validator: (value) => prov.validateName(value),
                 ),
               ),
               Padding(
@@ -265,16 +222,9 @@ class _MyContactPageState extends State<MyContactPage> {
                     hintStyle: TextStyle(fontSize: 12),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                   ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Phone Number is required';
-                    } else if (!RegExp(r'^0[0-9]{7,14}$').hasMatch(value)) {
-                      return 'Phone numbers must start with 0 and have 8-15 digits';
-                    }
-                    return null;
-                  },
+                  validator: (value) => prov.validatePhoneNumber(value),
                 ),
-              ),
+              )
             ],
           ),
         ],
@@ -375,17 +325,8 @@ class _MyContactPageState extends State<MyContactPage> {
                                         floatingLabelBehavior:
                                             FloatingLabelBehavior.always,
                                       ),
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return 'Name is required';
-                                        } else if (value.split(' ').length <
-                                            2) {
-                                          return 'Name must have at least 2 words';
-                                        } else if (prov.capital(value)) {
-                                          return 'Words start with capital letters, no special characters.';
-                                        }
-                                        return null;
-                                      },
+                                      validator: (value) =>
+                                          prov.validateName(value),
                                     ),
                                     TextFormField(
                                       key: const Key('edit_number'),
@@ -409,47 +350,29 @@ class _MyContactPageState extends State<MyContactPage> {
                                         floatingLabelBehavior:
                                             FloatingLabelBehavior.always,
                                       ),
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return 'Phone Number is required';
-                                        } else if (!RegExp(r'^0[0-9]{7,14}$')
-                                            .hasMatch(value)) {
-                                          return 'Phone numbers must start with 0 and have 8-15 digits';
-                                        }
-                                        return null;
-                                      },
+                                      validator: (value) =>
+                                          prov.validatePhoneNumber(value),
                                     ),
                                   ],
                                 ),
                                 actions: [
                                   ElevatedButton(
                                     onPressed: () {
-                                      final updatedName =
-                                          prov.geteditNameController.text;
-                                      final updatedNumber =
-                                          prov.geteditNumberController.text;
-
-                                      if ((updatedName.isNotEmpty ||
-                                              updatedNumber.isNotEmpty) &&
-                                          (updatedName != previousName ||
-                                              updatedNumber !=
-                                                  previousNumber)) {
-                                        prov.editContact(
-                                            index,
-                                            updatedName,
-                                            updatedNumber,
-                                            currentDate,
-                                            currentColor,
-                                            selectedFileName);
-                                      }
-
-                                      Navigator.of(context).pop();
+                                      prov.onSubmitEdit(
+                                          context,
+                                          index,
+                                          previousName,
+                                          previousNumber,
+                                          prov.currentDate,
+                                          prov.currentColor,
+                                          prov.selectedFileName);
+                                      prov.onClosePage(context);
                                     },
                                     child: const Text("Save"),
                                   ),
                                   ElevatedButton(
                                     onPressed: () {
-                                      Navigator.of(context).pop();
+                                      prov.onClosePage(context);
                                     },
                                     child: const Text("Cancel"),
                                   ),
@@ -490,23 +413,7 @@ class _MyContactPageState extends State<MyContactPage> {
           padding: const EdgeInsets.all(8),
           child: ElevatedButton(
             onPressed: () {
-              if (!isFileSelected) {
-                prov.showSnackbar(context, "Pick a file first");
-              } else if (_key.currentState!.validate()) {
-                String name = prov.getNameController.text;
-                String number = prov.getNumberController.text;
-
-                prov.addContact(
-                    name, number, dueDate, currentColor, selectedFileName);
-
-                dueDate = DateTime.now();
-                prov.getNameController.clear();
-                prov.getNumberController.clear();
-                currentColor = currentColor;
-                selectedFileName = "";
-                isFileSelected = false;
-                prov.printAccount();
-              }
+              prov.processForm(context);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.indigo,

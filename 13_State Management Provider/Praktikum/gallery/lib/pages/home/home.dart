@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gallery/drawer.dart';
-import 'package:gallery/provider/MyProvider.dart';
+import 'package:gallery/provider/my_provider.dart';
 import 'package:provider/provider.dart';
 
 class MyHome extends StatefulWidget {

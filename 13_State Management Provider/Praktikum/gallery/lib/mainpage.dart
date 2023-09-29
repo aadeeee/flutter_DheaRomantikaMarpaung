@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gallery/pages/contact/contactPage.dart';
 import 'package:gallery/pages/home/home.dart';
-import 'package:gallery/pages/image/imagePage.dart';
+import 'package:gallery/pages/image/image_page.dart';
 import 'package:gallery/pages/setting/setting.dart';
 
 class MyMainPage extends StatefulWidget {

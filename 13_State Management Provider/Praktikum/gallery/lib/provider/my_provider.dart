@@ -1,5 +1,7 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:gallery/model/contactmodel.dart';
+import 'package:open_file/open_file.dart';
 
 class MyProvider extends ChangeNotifier {
   final TextEditingController _nameController = TextEditingController();
@@ -7,11 +9,23 @@ class MyProvider extends ChangeNotifier {
   final TextEditingController _editNameController = TextEditingController();
   final TextEditingController _editNumberController = TextEditingController();
 
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+
   TextEditingController get getNameController => _nameController;
   TextEditingController get getNumberController => _numberController;
   TextEditingController get geteditNameController => _editNameController;
   TextEditingController get geteditNumberController => _editNumberController;
 
+  GlobalKey<FormState> get key => _key;
+
+  DateTime dueDate = DateTime.now();
+  final currentDate = DateTime.now();
+
+  Color currentColor = Colors.orange;
+
+  String selectedFileName = "";
+  bool isFileSelected = false;
+  String isfilePath = "";
   final List<Map<String, dynamic>> _listcontact = [
     {
       'name': 'Leane Graham',
@@ -44,6 +58,7 @@ class MyProvider extends ChangeNotifier {
   ];
 
   List<Map<String, dynamic>> get listContact => _listcontact;
+
   final List<Contact> _account = [];
 
   List<Contact> get account => _account;
@@ -99,7 +114,134 @@ class MyProvider extends ChangeNotifier {
     return true;
   }
 
-  final List<Map<String, dynamic>> _myLearn = [
+  String? _errorMessagePhone;
+
+  String? get errorMessagePhone => _errorMessagePhone;
+
+  String? validatePhoneNumber(String? phoneNumber) {
+    if (phoneNumber == null || phoneNumber.isEmpty) {
+      _errorMessagePhone = 'Phone Number is required';
+    } else if (!RegExp(r'^0[0-9]{7,14}$').hasMatch(phoneNumber)) {
+      _errorMessagePhone =
+          'Phone numbers must start with 0 and have 8-15 digits';
+    } else {
+      _errorMessagePhone = null;
+    }
+
+    notifyListeners();
+
+    return _errorMessagePhone;
+  }
+
+  String? _errorMessageName;
+
+  String? get errorMessageName => _errorMessageName;
+  String? validateName(String? name) {
+    if (name == null || name.isEmpty) {
+      _errorMessageName = 'Name is required';
+    } else if (name.split(' ').length < 2) {
+      _errorMessageName = 'Name must have at least 2 words';
+    } else if (!capital(name)) {
+      _errorMessageName =
+          'Words start with capital letters, no special characters.';
+    } else {
+      _errorMessageName = null;
+    }
+
+    notifyListeners();
+
+    return _errorMessageName;
+  }
+
+  void onSubmitEdit(
+      BuildContext context,
+      int index,
+      String previousName,
+      String previousNumber,
+      DateTime currentDate,
+      Color currentColor,
+      String selectedFileName) {
+    final updatedName = geteditNameController.text;
+    final updatedNumber = geteditNumberController.text;
+
+    if ((updatedName.isNotEmpty || updatedNumber.isNotEmpty) &&
+        (updatedName != previousName || updatedNumber != previousNumber)) {
+      editContact(
+        index,
+        updatedName,
+        updatedNumber,
+        currentDate,
+        currentColor,
+        selectedFileName,
+      );
+    }
+  }
+
+  void onClosePage(BuildContext context) {
+    Navigator.of(context).pop();
+  }
+
+  Future<void> pickFile() async {
+    final result = await FilePicker.platform.pickFiles();
+    if (result == null) return;
+
+    final file = result.files.first;
+    selectedFileName = file.name;
+    isfilePath = file.path ?? '';
+    isFileSelected = true;
+
+    notifyListeners();
+
+    openFile(file);
+  }
+
+  void openFile(PlatformFile file) {
+    OpenFile.open(file.path);
+  }
+
+  void updateColor(Color color) {
+    currentColor = color;
+    notifyListeners();
+  }
+
+  DateTime _selectedDate = DateTime.now();
+
+  DateTime get selectedDate => _selectedDate;
+
+  void updateSelectedDate(DateTime newDate) {
+    _selectedDate = newDate;
+    notifyListeners();
+  }
+
+ void processForm(BuildContext context) {
+  if (!isFileSelected) {
+    showSnackbar(context, "Pick a File First");
+    return;
+  }
+
+  if (_key.currentState!.validate()) {
+    String name = getNameController.text;
+    String number = getNumberController.text;
+
+    addContact(
+      name,
+      number,
+      dueDate,
+      currentColor,
+      selectedFileName,
+    );
+
+    dueDate = DateTime.now();
+    getNameController.clear();
+    getNumberController.clear();
+    currentColor = currentColor;
+    selectedFileName = "";
+    isFileSelected = false;
+    printAccount();
+  }
+}
+
+  final List<Map<String, dynamic>> myLearn = [
     {"item": "Learn Flutter"},
     {
       "item": ["Learn ReactJS", "Learn VueJS"]
@@ -110,7 +252,7 @@ class MyProvider extends ChangeNotifier {
     {"item": "Learn Digital Marketing"}
   ];
 
-  List<Map<String, dynamic>> get listMyLearn => _myLearn;
+  List<Map<String, dynamic>> get listMyLearn => myLearn;
 
   final List<String> images = [
     'assets/images/img1.jpg',

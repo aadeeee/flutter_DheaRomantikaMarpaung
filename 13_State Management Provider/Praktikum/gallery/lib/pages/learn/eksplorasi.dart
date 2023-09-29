@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gallery/pages/learn/myFab.dart';
-import 'package:gallery/pages/learn/myLearn.dart';
+import 'package:gallery/pages/learn/my_fab.dart';
+import 'package:gallery/pages/learn/my_learn.dart';
 
 class MyLearnPage extends StatefulWidget {
   const MyLearnPage({super.key});

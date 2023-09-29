@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gallery/mainpage.dart';
 import 'package:gallery/pages/contact/contactPage.dart';
-import 'package:gallery/pages/image/detailImage.dart';
-import 'package:gallery/pages/image/imageError.dart';
-import 'package:gallery/pages/image/imagePage.dart';
+import 'package:gallery/pages/image/detail_image.dart';
+import 'package:gallery/pages/image/image_error.dart';
+import 'package:gallery/pages/image/image_page.dart';
 import 'package:gallery/pages/learn/eksplorasi.dart';
 import 'package:gallery/pages/setting/setting.dart';
-import 'package:gallery/provider/MyProvider.dart';
+import 'package:gallery/provider/my_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() {

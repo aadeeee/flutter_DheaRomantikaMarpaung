@@ -41,7 +41,7 @@ class _MyContactPageState extends State<MyContactPage> {
   }
 
   Widget buildDatePicker(BuildContext context) {
-    var prov = Provider.of<MyProvider>(context, listen: false);
+    final prov = Provider.of<MyProvider>(context, listen: false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -69,7 +69,7 @@ class _MyContactPageState extends State<MyContactPage> {
   }
 
   Widget buildColorPicker(BuildContext context) {
-    var prov = Provider.of<MyProvider>(context, listen: false);
+    final prov = Provider.of<MyProvider>(context, listen: false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -122,7 +122,7 @@ class _MyContactPageState extends State<MyContactPage> {
   }
 
   Widget buildFilePicker(BuildContext context) {
-    var prov = Provider.of<MyProvider>(context, listen: false);
+    final prov = Provider.of<MyProvider>(context, listen: false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -154,7 +154,7 @@ class _MyContactPageState extends State<MyContactPage> {
   }
 
   Widget buildForm(BuildContext context) {
-    var prov = Provider.of<MyProvider>(context, listen: false);
+    final prov = Provider.of<MyProvider>(context, listen: false);
     return Form(
       key: prov.key,
       child: Column(
@@ -233,7 +233,7 @@ class _MyContactPageState extends State<MyContactPage> {
   }
 
   Widget buildListForm(BuildContext context) {
-    var prov = Provider.of<MyProvider>(context, listen: false);
+    final prov = Provider.of<MyProvider>(context, listen: false);
     return SizedBox(
       height: MediaQuery.of(context).size.height,
       child: Column(
@@ -405,7 +405,7 @@ class _MyContactPageState extends State<MyContactPage> {
   }
 
   Widget buildButtonSubmit(BuildContext context) {
-    var prov = Provider.of<MyProvider>(context);
+    final prov = Provider.of<MyProvider>(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [

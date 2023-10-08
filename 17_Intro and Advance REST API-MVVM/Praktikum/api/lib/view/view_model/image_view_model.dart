@@ -34,6 +34,7 @@ class MyImageProvider extends ChangeNotifier {
 
       final response = await service.fetchImage(imageUrl);
       if (response.statusCode == 200) {
+        return _imageUrl;
       } else {
         print('Gagal mengambil data dari API');
       }

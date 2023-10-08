@@ -30,15 +30,16 @@ class _MyImagePageState extends State<MyImagePage> {
                 width: 200,
                 height: 200,
                 child: Consumer<MyImageProvider>(
-                  builder: (context, prov, _) {
-                    return SvgPicture.network(
-                      prov.nama.text.isNotEmpty ? prov.imageUrl : Url.urlImage,
-                      placeholderBuilder: (BuildContext context) =>
-                          const CircularProgressIndicator(),
-                      fit: BoxFit.contain,
-                    );
-                  },
-                ),
+                    builder: (context, prov, _) => prov.nama.text.isNotEmpty
+                        ? prov.imageUrl.isNotEmpty
+                            ? SvgPicture.network(
+                                prov.imageUrl,
+                                fit: BoxFit.contain,
+                              )
+                            : (() {
+                                return const CircularProgressIndicator();
+                              })()
+                        : const CircularProgressIndicator()),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),

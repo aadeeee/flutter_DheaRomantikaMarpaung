@@ -7,22 +7,6 @@ import 'package:dio/dio.dart';
 class ApiService {
   final Dio _dio = Dio();
 
-  ApiService() {
-    _dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (options, handler) {
-        return handler.next(options);
-      },
-      onResponse: (e, handler) {
-        return handler.next(e);
-      },
-      onError: (DioError e, handler) {
-        if (e.response!.statusCode == 401) {
-        } else {}
-        return handler.next(e);
-      },
-    ));
-  }
-
   Future<UserModel> postData({
     required String name,
     required String job,
@@ -30,12 +14,9 @@ class ApiService {
     try {
       Map<String, dynamic> requestBody = {
         'name': name,
-          'job': job,
+        'job': job,
       };
-      Response postResponse = await Dio().post(
-        Url.urlUser,
-        data: requestBody
-      );
+      Response postResponse = await Dio().post(Url.urlUser, data: requestBody);
 
       if (postResponse.statusCode == 201) {
         print('Post success');
@@ -55,7 +36,7 @@ class ApiService {
     try {
       Map<String, dynamic> requestBody = {
         "id": 1,
-        "title": title, 
+        "title": title,
         "body": body,
         "userId": 1
       };
@@ -81,6 +62,17 @@ class ApiService {
       final response = await _dio.get(url);
       return response;
     } catch (error) {
+      throw Exception('Gagal mengambil data dari API: $error');
+    }
+  }
+
+  Future<Response> fetchdata() async {
+    try {
+      final response = await _dio.get(Url.urltest);
+      print(response);
+      return response;
+    } catch (error) {
+      print('Terjadi kesalahan: $error');
       throw Exception('Gagal mengambil data dari API: $error');
     }
   }

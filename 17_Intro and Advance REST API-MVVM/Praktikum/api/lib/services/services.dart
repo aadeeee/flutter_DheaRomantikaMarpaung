@@ -66,14 +66,5 @@ class ApiService {
     }
   }
 
-  Future<Response> fetchdata() async {
-    try {
-      final response = await _dio.get(Url.urltest);
-      print(response);
-      return response;
-    } catch (error) {
-      print('Terjadi kesalahan: $error');
-      throw Exception('Gagal mengambil data dari API: $error');
-    }
-  }
+  
 }

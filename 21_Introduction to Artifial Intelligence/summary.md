@@ -1,0 +1,11 @@
+summary minggu 9
+
+Introduction to Artificial Inteligence
+
+1. Kecerdasan Buatan (AI) merupakan bidang ilmu komputer yang berkaitan dengan pengembangan komputer dan sistem yang mampu mengeksekusi tugas-tugas yang biasanya memerlukan kecerdasan manusia, seperti pengambilan keputusan, pemahaman bahasa manusia, pengenalan pola, dan pembelajaran mandiri. AI menggunakan algoritma dan pemrograman untuk memproses data dan menghasilkan output yang cerdas, yang berkembang pesat dan memiliki beragam aplikasi, termasuk di dalamnya mesin pencari, pengenalan wajah, pengolahan bahasa alami, kendaraan otonom, dan banyak lagi.
+
+2.  Cara kerja AI melibatkan pengumpulan dan analisis data, pembelajaran dari pola dan tren dalam data tersebut, dan kemudian menerapkan pengetahuan yang diperoleh untuk membuat prediksi, pengambilan keputusan, atau tindakan tertentu. Tujuan utama AI adalah membuat mesin dapat berpikir, belajar, dan berperilaku seperti manusia, yang memungkinkan aplikasi dalam berbagai bidang seperti pengenalan suara, mobil otonom, penelitian medis, dan banyak lagi.
+
+3. Machine Learning merupakan bagian dari AI yang fokus pada pengembangan algoritma yang dapat belajar dari data. Ini melibatkan penggunaan model matematis untuk menganalisis dan membuat prediksi atau keputusan. Dan kemudian yang merupakan subbidang dari Machine Learning yaitu Deep Learning yang berfokus pada jaringan saraf tiruan yang terdiri dari banyak lapisan yang dapat memahami representasi data yang kompleks. Deep Learning banyak digunakan dalam pengenalan gambar, pengenalan suara, pemrosesan bahasa alami, dan sebagainya.
+
+4. Kecerdasan Buatan (AI) dimulai pada tahun 1950-an. Awalnya, AI dikembangkan untuk mengembangkan komputer yang dapat meniru kemampuan berpikir manusia, termasuk pemecahan masalah, pengambilan keputusan, dan bahkan pemrosesan bahasa alami. Pada awal perkembangannya, AI berfokus pada pemrograman simbolik, tetapi kemudian melibatkan pendekatan berbasis data, seperti pembelajaran mesin. AI tumbuh dengan pesat dalam beberapa dekade terakhir berkat kemajuan dalam perangkat keras, algoritma, dan data besar, memungkinkannya memengaruhi berbagai bidang, termasuk teknologi, kesehatan, dan otomatisasi.
